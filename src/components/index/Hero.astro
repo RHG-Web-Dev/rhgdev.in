@@ -1,0 +1,67 @@
+---
+import { Image } from "astro:assets";
+---
+
+<section
+  class="min-h-screen flex items-center justify-center text-center
+bg-linear-to-b from-black/10 to-black/40"
+>
+  <div>
+    <Image
+      src="/img/favicon.png"
+      alt="Profile"
+      class="w-32 h-32 rounded-full mx-auto mb-4 object-cover"
+      width="32"
+      height="32"
+    />
+    <h1 class="text-6xl font-bold">RHG Dev</h1>
+    <p class="text-lg text-gray-300 mb-2">Tennessee, USA</p>
+    <p class="text-sm text-gray-400 mb-2">
+      <span id="typer"> </span>
+    </p>
+  </div>
+  <!-- Bottom of div floating down arrow -->
+  <div class="absolute bottom-1 left-1/2 transform -translate-x-1/2">
+    <svg
+      class="w-6 h-6 animate-bounce text-gray-400"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M19 9l-7 7-7-7"></path>
+    </svg>
+  </div>
+</section>
+
+<!-- Client-side script -->
+<script type="module">
+  new TypeIt("#typer", {
+    speed: 90,
+    startDelay: 800,
+    lifeLike: true,
+    cursor: true,
+  })
+    .type("Consistency is Power.")
+    .pause(1200)
+    .move(-10)
+    .pause(300)
+    .delete()
+    .pause(300)
+    .type("Execution")
+    .pause(1200)
+    .delete()
+    .pause(300)
+    .type("Knowledge")
+    .move(null, { to: "END" })
+    .delete(6)
+    .pause(300)
+    .type('<span class="font-bold text-lg text-gray-200">Power</span>.', {
+      delay: 300,
+    })
+    .go();
+</script>

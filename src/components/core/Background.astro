@@ -1,0 +1,102 @@
+---
+const backgrounds = {
+  default: "1667242418056-a8dba5b0fc9b",
+  summer: [
+    "1541843713287-e0d5de49a384",
+    "1512848857248-75eff50a19a1",
+    "1544513169-0a660c85bdd9",
+  ],
+  spring: [
+    "1591194577912-2c7811d0f994",
+    "1541942172213-60aeb3558797",
+    "1597086454462-1f9b6e95e1f7",
+    "1520363027780-797c0e65eed5",
+    "1631677209832-e9dd6aec3697",
+  ],
+  autumn: [
+    "1507486411790-179bbb6866ed",
+    "1550931937-2dfd45a40da0",
+    "1508766229-1a45d4127740",
+    "1509838174235-432f709c7bfd",
+    "1634523453794-b992ac716fa3",
+    "1633622667733-5de5e7ab9305",
+    "1667748941477-28964059b86e",
+    "1733503757968-b2281fbdd10b",
+  ],
+  winter: [
+    "1515583484859-a15e976f80d2",
+    "1483921020237-2ff51e8e4b22",
+    "1456389573961-0ae56d45961e",
+    "1641785680273-9017dd4cb5c9",
+    "1588168000634-95b744f81f9f",
+    "1667242418056-a8dba5b0fc9b",
+  ],
+};
+
+const loadDefault = false;
+
+function getSeason() {
+  const month = new Date().getMonth() + 1;
+
+  if (month >= 3 && month <= 5) return "spring";
+  if (month >= 6 && month <= 8) return "summer";
+  if (month >= 9 && month <= 11) return "autumn";
+  return "winter";
+}
+
+let selectedImage = backgrounds.default;
+
+const season = getSeason();
+const options = backgrounds?.[season];
+if (!loadDefault && Array.isArray(options) && options.length > 0)
+  selectedImage = options[Math.floor(Math.random() * options.length)];
+
+const backgroundUrl = `https://images.unsplash.com/photo-${selectedImage}?auto=format&fit=crop&w=1920&q=80`;
+---
+
+<div
+  id="background"
+  class="fixed inset-0 -z-50 bg-cover bg-center bg-no-repeat opacity-0 transition-opacity duration-3000"
+  style={`background-image: url('${backgroundUrl}')`}
+>
+  <div
+    class="pointer-events-none absolute inset-0 backdrop-blur-md"
+    style="background: linear-gradient(5deg, rgba(0,0,0,0.3), rgba(0,0,0,0.5));"
+  >
+  </div>
+  <!-- Animated objects container -->
+  <div class="absolute inset-0 pointer-events-none"></div>
+</div>
+
+<script>
+  const bg = document.getElementById("background");
+
+  if (bg) {
+    const style = bg.getAttribute("style");
+    const match = style?.match(/url\('(.*)'\)/);
+    const url = match?.[1];
+
+    if (url) {
+      const img = new Image();
+      img.src = url;
+
+      img.onload = () => {
+        bg.classList.remove("opacity-0");
+        bg.classList.add("opacity-100");
+      };
+    }
+  }
+</script>
+
+<!-- <script type="module">
+  const container = document.querySelector("#background .absolute.inset-0");
+
+  for (let i = 0; i < 10; i++) {
+    const div = document.createElement("div");
+    div.className = "floating w-3 h-3 rounded-full bg-white/20 absolute";
+    div.style.top = Math.random() * 90 + "%";
+    div.style.left = Math.random() * 90 + "%";
+    div.style.animationDuration = 6 + Math.random() * 45 + "s";
+    container.appendChild(div);
+  }
+</script> -->
