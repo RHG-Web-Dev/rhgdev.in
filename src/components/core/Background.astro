@@ -56,17 +56,33 @@ const backgroundUrl = `https://images.unsplash.com/photo-${selectedImage}?auto=f
 
 <div
   id="background"
-  class="fixed inset-0 -z-50 bg-cover bg-center bg-no-repeat opacity-0 transition-opacity duration-3000"
+  class="fixed inset-0 -z-150 bg-cover bg-center bg-no-repeat opacity-0 transition-opacity duration-3000 animate-bg"
   style={`background-image: url('${backgroundUrl}')`}
 >
   <div
-    class="pointer-events-none absolute inset-0 backdrop-blur-md"
-    style="background: linear-gradient(5deg, rgba(0,0,0,0.3), rgba(0,0,0,0.5));"
+    class="pointer-events-none absolute inset-0 backdrop-blur-xs"
+    style="background: linear-gradient(5deg, rgba(0,0,0,0.1), rgba(0,0,0,0.1));"
   >
   </div>
-  <!-- Animated objects container -->
-  <div class="absolute inset-0 pointer-events-none"></div>
 </div>
+
+<style>
+  @keyframes bg-pulse {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  .animate-bg {
+    animation: bg-pulse 60s linear infinite;
+  }
+</style>
 
 <script>
   const bg = document.getElementById("background");

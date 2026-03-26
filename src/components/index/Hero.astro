@@ -7,14 +7,31 @@ import { Image } from "astro:assets";
 bg-linear-to-b from-black/10 to-black/40"
 >
   <div>
+    <style>
+      .avatar-glow {
+        animation: pulse 5s ease-in-out infinite;
+        filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.77));
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.2);
+        }
+      }
+    </style>
     <Image
       src="/img/favicon.png"
       alt="Profile"
-      class="w-32 h-32 rounded-full mx-auto mb-4 object-cover"
+      class="w-32 h-32 rounded-full mx-auto mb-4 object-cover avatar-glow"
       width="32"
       height="32"
+      loading="eager"
     />
-    <h1 class="text-6xl font-bold">RHG Dev</h1>
+    <h1 class="text-6xl font-bold">RHG</h1>
     <p class="text-lg text-gray-300 mb-2">Tennessee, USA</p>
     <p class="text-sm text-gray-400 mb-2">
       <span id="typer"> </span>

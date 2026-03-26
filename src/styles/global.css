@@ -20,22 +20,3 @@ html {
 ::-webkit-scrollbar-thumb:hover {
   background: #292b30;
 }
-/* Floating keyframes */
-@keyframes float {
-  0% {
-    transform: translateY(0) translateX(0) rotate(0deg);
-    opacity: 0.6;
-  }
-  50% {
-    transform: translateY(-20px) translateX(10px) rotate(45deg);
-    opacity: 0.8;
-  }
-  100% {
-    transform: translateY(0) translateX(0) rotate(0deg);
-    opacity: 0.6;
-  }
-}
-
-.floating {
-  animation: float 2s ease-in-out infinite;
-}
