@@ -78,8 +78,11 @@ bg-linear-to-b from-black/10 to-black/40"
     .move(null, { to: "END" })
     .delete(6)
     .pause(300)
-    .type('<span class="font-bold text-4xl text-gray-200">Power</span>.', {
-      delay: 300,
-    })
+    .type(
+      '<span class="text-gray-300" style="filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.75))"">Power</span>.',
+      {
+        delay: 300,
+      },
+    )
     .go();
 </script>
