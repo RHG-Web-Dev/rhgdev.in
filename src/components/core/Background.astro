@@ -34,6 +34,7 @@ const backgrounds = {
   ],
 };
 ---
+
 <div
   id="background"
   class="fixed inset-0 -z-150 bg-cover bg-center bg-no-repeat transition-opacity duration-3000 animate-bg opacity-0"
@@ -62,30 +63,33 @@ const backgrounds = {
 
   .animate-bg {
     animation: bg-pulse 60s linear infinite;
-  }z
+  }
 </style>
 
 <script>
-
   const bg = document.getElementById("background");
 
   if (bg) {
     const backgrounds = JSON.parse(bg.dataset.backgrounds ?? "{}");
     const loadDefault = bg.dataset.loadDefault === "true";
-		bg.removeAttribute("data-backgrounds");
-		bg.removeAttribute("data-load-default");
+    bg.removeAttribute("data-backgrounds");
+    bg.removeAttribute("data-load-default");
 
     const season = (() => {
-			const urlParams = new URLSearchParams(window.location.search);
-			const seasonParam = urlParams.get("season");
-			if (seasonParam && ["spring", "summer", "autumn", "winter"].includes(seasonParam)) return seasonParam;
-			const month = new Date().getMonth() + 1;
+      const urlParams = new URLSearchParams(window.location.search);
+      const seasonParam = urlParams.get("season");
+      if (
+        seasonParam &&
+        ["spring", "summer", "autumn", "winter"].includes(seasonParam)
+      )
+        return seasonParam;
+      const month = new Date().getMonth() + 1;
       if (month >= 3 && month <= 5) return "spring";
       if (month >= 6 && month <= 8) return "summer";
       if (month >= 9 && month <= 11) return "autumn";
       return "winter";
-		})();
-		
+    })();
+
     const options = backgrounds?.[season];
 
     let selected = backgrounds.default;
