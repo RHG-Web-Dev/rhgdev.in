@@ -1,11 +1,20 @@
 ---
+import { Icon } from "astro-icon/components";
 const year = new Date().getUTCFullYear();
 ---
 
 <footer
-  class="text-center md:text-right text-xs py-3 pr-6 bg-gray-800/15 backdrop-blur-md"
+  class="flex flex-col items-center lg:items-end
+         text-xs py-3 px-6 bg-gray-800/15 backdrop-blur-md text-gray-400"
 >
-  <p>
+  <p class="text-center lg:text-right">
     Copyright © <span class="italic">2018-{year}</span> Rusty Huskey
   </p>
+
+  <div class="flex items-center justify-center lg:justify-end text-sm">
+    <span>Built with</span>
+    <Icon name="simple-icons:tailwindcss" class="mx-1" />
+    <span>and</span>
+    <Icon name="simple-icons:astro" class="mx-1" />
+  </div>
 </footer>
