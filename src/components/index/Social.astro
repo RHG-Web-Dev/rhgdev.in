@@ -1,12 +1,11 @@
 ---
-import { Image } from "astro:assets";
 import { Icon } from "astro-icon/components";
 const response = await fetch("https://rhgdev.in/@linkapi");
 const links = await response.json();
 ---
 
-<section class="flex items-center justify-center text-center bg-black/40">
-  <div class="flex flex-wrap justify-left gap-6 m-15">
+<section class="flex justify-center bg-black/40">
+  <div class="flex flex-wrap justify-center gap-6 m-15 max-w-xl mx-auto">
     {
       Object.entries(links).map(([key, value], index) => {
         const link = value as {
@@ -19,7 +18,7 @@ const links = await response.json();
             href={`https://rhgdev.in/@${key}`}
             target="_blank"
             rel="noopener noreferrer"
-            class="text-white/50 hover:text-white transition text-3xl hover:scale-125 animate-fade-in opacity-0 drop-shadow-[0_0_2px_black]"
+            class="text-white/50 hover:text-white transition-all duration-200 ease-linear text-3xl hover:scale-125 animate-fade-in opacity-0 drop-shadow-[0_0_2px_black]"
             style={`animation-delay: ${1000 + index * 100}ms; animation-fill-mode: forwards; transition: all 0.2s linear;`}
             aria-label={link.title}
           >

@@ -1,4 +1,5 @@
 ---
+const loadDefault = false;
 const backgrounds = {
   default: "1667242418056-a8dba5b0fc9b",
   summer: [
@@ -32,32 +33,12 @@ const backgrounds = {
     "1667242418056-a8dba5b0fc9b",
   ],
 };
-
-const loadDefault = false;
-
-function getSeason() {
-  const month = new Date().getMonth() + 1;
-
-  if (month >= 3 && month <= 5) return "spring";
-  if (month >= 6 && month <= 8) return "summer";
-  if (month >= 9 && month <= 11) return "autumn";
-  return "winter";
-}
-
-let selectedImage = backgrounds.default;
-
-const season = getSeason();
-const options = backgrounds?.[season];
-if (!loadDefault && Array.isArray(options) && options.length > 0)
-  selectedImage = options[Math.floor(Math.random() * options.length)];
-
-const backgroundUrl = `https://images.unsplash.com/photo-${selectedImage}?auto=format&fit=crop&w=1920&q=80`;
 ---
-
 <div
   id="background"
-  class="fixed inset-0 -z-150 bg-cover bg-center bg-no-repeat opacity-0 transition-opacity duration-3000 animate-bg"
-  style={`background-image: url('${backgroundUrl}')`}
+  class="fixed inset-0 -z-150 bg-cover bg-center bg-no-repeat transition-opacity duration-3000 animate-bg opacity-0"
+  data-backgrounds={JSON.stringify(backgrounds)}
+  data-load-default={loadDefault}
 >
   <div
     class="pointer-events-none absolute inset-0 backdrop-blur-xs"
@@ -81,38 +62,47 @@ const backgroundUrl = `https://images.unsplash.com/photo-${selectedImage}?auto=f
 
   .animate-bg {
     animation: bg-pulse 60s linear infinite;
-  }
+  }z
 </style>
 
 <script>
+
   const bg = document.getElementById("background");
 
   if (bg) {
-    const style = bg.getAttribute("style");
-    const match = style?.match(/url\('(.*)'\)/);
-    const url = match?.[1];
+    const backgrounds = JSON.parse(bg.dataset.backgrounds ?? "{}");
+    const loadDefault = bg.dataset.loadDefault === "true";
+		bg.removeAttribute("data-backgrounds");
+		bg.removeAttribute("data-load-default");
 
-    if (url) {
-      const img = new Image();
-      img.src = url;
+    const season = (() => {
+			const urlParams = new URLSearchParams(window.location.search);
+			const seasonParam = urlParams.get("season");
+			if (seasonParam && ["spring", "summer", "autumn", "winter"].includes(seasonParam)) return seasonParam;
+			const month = new Date().getMonth() + 1;
+      if (month >= 3 && month <= 5) return "spring";
+      if (month >= 6 && month <= 8) return "summer";
+      if (month >= 9 && month <= 11) return "autumn";
+      return "winter";
+		})();
+		
+    const options = backgrounds?.[season];
 
-      img.onload = () => {
-        bg.classList.remove("opacity-0");
-        bg.classList.add("opacity-100");
-      };
+    let selected = backgrounds.default;
+
+    if (!loadDefault && Array.isArray(options) && options.length > 0) {
+      selected = options[Math.floor(Math.random() * options.length)];
     }
+
+    const bgUrl = `https://images.unsplash.com/photo-${selected}?auto=format&fit=crop&w=1920&q=80`;
+
+    bg.style.backgroundImage = `url('${bgUrl}')`;
+    const img = new Image();
+    img.src = bgUrl;
+
+    img.onload = () => {
+      bg.classList.remove("opacity-0");
+      bg.classList.add("opacity-100");
+    };
   }
 </script>
-
-<!-- <script type="module">
-  const container = document.querySelector("#background .absolute.inset-0");
-
-  for (let i = 0; i < 10; i++) {
-    const div = document.createElement("div");
-    div.className = "floating w-3 h-3 rounded-full bg-white/20 absolute";
-    div.style.top = Math.random() * 90 + "%";
-    div.style.left = Math.random() * 90 + "%";
-    div.style.animationDuration = 6 + Math.random() * 45 + "s";
-    container.appendChild(div);
-  }
-</script> -->

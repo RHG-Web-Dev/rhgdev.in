@@ -8,18 +8,36 @@ bg-linear-to-b from-black/10 to-black/40"
 >
   <div>
     <style>
-      .avatar-glow {
+      .avatar.enter {
+        animation: avatarEnter 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      }
+
+      .avatar.glow {
         animation: pulse 7s ease-in-out infinite;
+      }
+
+      @keyframes avatarEnter {
+        0% {
+          opacity: 0;
+          transform: scale(0.25) rotate(-180deg);
+        }
+        70% {
+          opacity: 1;
+          transform: scale(1.1) rotate(10deg);
+        }
+        100% {
+          opacity: 1;
+          transform: scale(1) rotate(0deg);
+        }
       }
 
       @keyframes pulse {
         0%,
         100% {
-          transform: scale(1);
           filter: drop-shadow(0 0 0px rgba(255, 255, 255, 0.75));
         }
         50% {
-          transform: scale(1.1);
+          transform: scale(1.05);
           filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.75));
         }
       }
@@ -27,14 +45,14 @@ bg-linear-to-b from-black/10 to-black/40"
     <Image
       src="/img/favicon.png"
       alt="Profile"
-      class="w-48 h-48 rounded-full mx-auto mb-4 object-cover avatar-glow"
+      class="avatar w-48 h-48 rounded-full mx-auto mb-4 object-cover"
       width="1080"
       height="1080"
       loading="eager"
     />
     <h1 class="text-6xl font-bold">RHG</h1>
-    <p class="text-4xl text-gray-300 mb-2">Tennessee, USA</p>
-    <p class="text-2xl text-gray-400 mb-2">
+    <p class="text-3xl text-gray-300 mb-2">Tennessee, USA</p>
+    <p class="text-xl text-gray-400 mb-2 italic">
       <span id="typer"> </span>
     </p>
   </div>
@@ -76,13 +94,29 @@ bg-linear-to-b from-black/10 to-black/40"
     .pause(300)
     .type("Knowledge")
     .move(null, { to: "END" })
-    .delete(6)
+    .move(-1)
+    .delete(5, { delay: 300 })
     .pause(300)
     .type(
-      '<span class="text-gray-300" style="filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.75))"">Power</span>.',
+      '<span class="text-gray-300" style="filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.75))"">Power</span>',
       {
         delay: 300,
       },
     )
     .go();
+</script>
+
+<script>
+  const avatar = document.querySelector(".avatar");
+
+  if (avatar) {
+    requestAnimationFrame(() => {
+      avatar.classList.add("enter");
+    });
+
+    setTimeout(() => {
+      avatar.classList.add("glow");
+      avatar.classList.remove("enter");
+    }, 900);
+  }
 </script>

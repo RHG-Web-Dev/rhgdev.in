@@ -1,7 +1,8 @@
 @import "tailwindcss";
 
 body {
-  font-family: "Passero One", monospace;
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
 }
 
 html {
