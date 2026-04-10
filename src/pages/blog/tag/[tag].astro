@@ -1,0 +1,63 @@
+---
+import { getCollection } from "astro:content";
+import Core from "../../../layouts/Core.astro";
+import Card from "../../../components/blog/Card.astro";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+
+  const tags = new Set<string>();
+
+  posts.forEach((post) => {
+    post.data.tags?.forEach((tag) => tags.add(tag));
+  });
+
+  return Array.from(tags).map((tag) => ({
+    params: { tag },
+  }));
+}
+
+const { tag } = Astro.params;
+
+const posts = await getCollection("blog");
+
+// filter posts by tag + exclude drafts in production
+const filtered = posts.filter((post) => {
+  const hasTag = post.data.tags?.includes(tag);
+
+  const isVisible = import.meta.env.DEV || !post.data.draft;
+
+  return hasTag && isVisible;
+});
+
+// sort newest first
+filtered.sort(
+  (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime(),
+);
+---
+
+<Core title={`#${tag} - Blog`} description={`Posts tagged ${tag}`}>
+  <section class="relative min-h-screen px-6 lg:px-16 py-24">
+    <div class="max-w-6xl mx-auto space-y-16">
+      <!-- Header -->
+      <div class="text-center space-y-4">
+        <h1 class="text-5xl md:text-6xl font-bold text-gray-100">
+          #{tag}
+        </h1>
+
+        <p class="text-gray-400 text-sm">
+          {filtered.length} post{filtered.length !== 1 && "s"}
+        </p>
+
+        <a href="/blog" class="text-gray-400 hover:text-white transition">
+          ← Back to Blog
+        </a>
+      </div>
+
+      <!-- Posts -->
+      <div class="grid sm:grid-cols-2 gap-6">
+        {filtered.map((post) => <Card post={post} />)}
+      </div>
+    </div>
+  </section>
+</Core>

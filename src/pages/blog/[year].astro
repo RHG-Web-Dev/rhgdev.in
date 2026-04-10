@@ -1,0 +1,62 @@
+---
+import { getCollection } from "astro:content";
+import Core from "../../layouts/Core.astro";
+import Card from "../../components/blog/Card.astro";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+
+  const years = [
+    ...new Set(
+      posts.map((post) => new Date(post.data.date).getFullYear().toString()),
+    ),
+  ];
+
+  return years.map((year) => ({
+    params: { year },
+    props: {
+      year,
+      posts: posts
+        .filter(
+          (post) => new Date(post.data.date).getFullYear().toString() === year,
+        )
+        .sort(
+          (a, b) =>
+            new Date(b.data.date).getTime() - new Date(a.data.date).getTime(),
+        ),
+    },
+  }));
+}
+
+const { year, posts } = Astro.props;
+---
+
+<Core title={`Blog ${year}`} description={`Posts from ${year}`}>
+  <section class="relative min-h-screen px-6 lg:px-16 py-24">
+    <div class="max-w-6xl mx-auto space-y-16">
+      <!-- Header -->
+      <div
+        class="text-center space-y-6
+              bg-black/30 backdrop-blur-md
+              border border-white/10
+              rounded-2xl px-6 py-8
+              shadow-lg
+							text-md"
+      >
+        <h1 class="text-5xl md:text-6xl font-bold">Year {year}</h1>
+        <p class="text-gray-400">
+          {posts.length} post{posts.length !== 1 ? "s" : ""}
+        </p>
+
+        <a href="/blog" class="text-gray-400 hover:text-white transition">
+          ← Back to Blog
+        </a>
+      </div>
+
+      <!-- Posts -->
+      <div class="grid sm:grid-cols-2 gap-6">
+        {posts.map((post) => <Card post={post} />)}
+      </div>
+    </div>
+  </section>
+</Core>
