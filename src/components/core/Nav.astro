@@ -1,0 +1,51 @@
+---
+import { Icon } from "astro-icon/components";
+let links: Record<string, { location: string; astroicon: string }> = {
+	{
+		location: "/devices",
+		astroicon: "simple-icons:aboutdotme",
+	},
+	{
+		location: "/blog",
+		astroicon: "simple-icons:devdotto",
+	}
+}
+---
+
+<section class="flex justify-center bg-black/40">
+  <div class="flex flex-wrap justify-center gap-6 m-15 max-w-5/8 mx-auto">
+    {
+      Object.entries(links).map(([key, value], index) => {
+        return (
+          <a
+            href={value.location}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-white/50 hover:text-white transition-all duration-200 ease-linear text-3xl hover:scale-125 animate-fade-in opacity-0 drop-shadow-[0_0_2px_black]"
+            style={`animation-delay: ${1000 + index * 100}ms; animation-fill-mode: forwards; transition: all 0.2s linear;`}
+            aria-label={value.location}
+          >
+            <Icon name={value.astroicon} />
+          </a>
+        );
+      })
+    }
+  </div>
+</section>
+<style>
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.8s ease-out forwards;
+    opacity: 0;
+  }
+</style>

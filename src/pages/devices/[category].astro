@@ -1,0 +1,67 @@
+---
+import { getCollection } from "astro:content";
+import Core from "../../layouts/Core.astro";
+import Card from "../../components/devices/Card.astro";
+
+export async function getStaticPaths() {
+  const devices = await getCollection("devices");
+
+  // Get unique categories
+  const categories = [
+    ...new Set(devices.map((device) => device.id.split("/")[0])),
+  ];
+
+  return categories.map((category) => ({
+    params: { category },
+  }));
+}
+const { category } = Astro.params;
+
+const devices = await getCollection("devices");
+
+const filteredDevices = devices.filter((device) =>
+  device.id.startsWith(category),
+);
+
+filteredDevices.sort((a, b) => {
+  const dateA = new Date(a.data.acquired).getTime();
+  const dateB = new Date(b.data.acquired).getTime();
+  return dateB - dateA;
+});
+---
+
+<Core
+  title={`${category.charAt(0).toUpperCase() + category.slice(1)}`}
+  description={`Devices in ${category}`}
+>
+  <section class="relative min-h-screen px-6 lg:px-16 py-24">
+    <div class="max-w-6xl mx-auto space-y-16">
+      <!-- Header -->
+      <div
+        class="text-center space-y-6
+              bg-black/30 backdrop-blur-md
+              border border-white/10
+              rounded-2xl px-6 py-8
+              shadow-lg
+							text-md"
+      >
+        <h1 class="text-5xl md:text-6xl font-bold fade-delay-1">
+          {category.charAt(0).toUpperCase() + category.slice(1)}
+        </h1>
+
+        <p class="text-gray-400 text-lg fade-delay-2">
+          {filteredDevices.length} device{filteredDevices.length !== 1 && "s"}
+        </p>
+
+        <a href="/devices" class="text-gray-400 hover:text-white transition">
+          ← Back to Devices
+        </a>
+      </div>
+
+      <!-- Cards -->
+      <div class="grid sm:grid-cols-2 gap-6 fade-delay-2">
+        {filteredDevices.map((device) => <Card device={device} />)}
+      </div>
+    </div>
+  </section>
+</Core>

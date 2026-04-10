@@ -1,13 +1,129 @@
-<header class="fixed top-0 w-full bg-black/50 backdrop-blur z-50">
-  <nav class="max-w-5xl mx-auto flex justify-between items-center py-4 px-6">
-		<div class="flex items-center space-x-2">
-			<img src="/img/favicon.png" alt="Icon" class="h-8 w-8 scale-125" />
-			<!-- <p><span class="font-bold">RHG</span>Dev</p> -->
-		</div>
-    <!-- <div class="space-x-4">
-      <a href="#about" class="hover:text-blue-400">About</a>
-      <a href="#projects" class="hover:text-blue-400">Projects</a>
-      <a href="#contact" class="hover:text-blue-400">Contact</a>
-    </div> -->
+---
+import { Image } from 'astro:assets';
+import { Icon } from "astro-icon/components";
+
+const links = [
+  { label: "Home", location: "/", customIcon: "/img/favicon.png" },
+  { label: "Devices", location: "/devices", icon: "mdi:devices" },
+  { label: "Blog", location: "/blog", icon: "simple-icons:bloglovin" },
+];
+---
+
+<header class="fixed top-4 left-4 z-50">
+
+  <nav
+    class="hidden md:flex items-center gap-3 px-1 py-1
+           rounded-xl bg-black/40 backdrop-blur-md
+           border border-white/10 shadow-md"
+    aria-label="Main navigation"
+  >
+    {links.map((link) => {
+      const active =
+        link.location === "/"
+          ? Astro.url.pathname === "/"
+          : Astro.url.pathname.startsWith(link.location);
+
+      return (
+        <a
+          href={link.location}
+          aria-label={link.label}
+          aria-current={active ? "page" : undefined}
+          class="relative group flex items-center justify-center
+                 w-9 h-9 rounded-md
+                 text-gray-400 hover:text-white
+                 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50
+                 transition"
+        >
+          {link.customIcon ? (
+            <Image
+              src={link.customIcon}
+              alt=""
+              width="16"
+              height="16"
+							loading="eager"
+              class="w-4 h-4 object-contain scale-150
+                     transition group-hover:scale-155 group-hover:-translate-y-0.5"
+            />
+          ) : (
+            <Icon
+              name={link.icon}
+              class={`w-4 h-4 transition scale-150
+                ${active ? "text-white" : ""}
+                group-hover:scale-155 group-hover:-translate-y-0.5`}
+            />
+          )}
+
+          {active && (
+            <span
+              class="absolute -bottom-1 left-1/2 -translate-x-1/2
+                     w-3/5 h-0.5 bg-white/70 rounded-full"
+            ></span>
+          )}
+
+          <!-- Tooltip -->
+          <span
+            class="pointer-events-none absolute top-full mt-2 left-1/2 -translate-x-1/2
+                   text-[10px] bg-black/80 px-2 py-0.5 rounded
+                   opacity-0 group-hover:opacity-100
+                   transition whitespace-nowrap"
+          >
+            {link.label}
+          </span>
+        </a>
+      );
+    })}
   </nav>
+
+  <!-- Mobile Header -->
+<div class="md:hidden fixed top-4 right-4 z-50">
+
+  <!-- Button -->
+  <button
+    aria-label="Toggle menu"
+    aria-expanded="false"
+    onclick="const m=document.getElementById('mobile-menu'); const open=!m.classList.contains('hidden'); m.classList.toggle('hidden'); this.setAttribute('aria-expanded', String(!open));"
+    class="w-10 h-10 flex items-center justify-center
+           bg-black/50 backdrop-blur
+           border border-white/10 rounded-lg
+           text-gray-300 hover:text-white
+           focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
+  >
+    ☰
+  </button>
+
+</div>
+
+<!-- Mobile Menu (Right-Aligned Panel) -->
+<div
+  id="mobile-menu"
+  class="hidden md:hidden fixed top-16 right-4 w-48
+         bg-black/60 backdrop-blur
+         border border-white/10
+         rounded-xl shadow-lg overflow-hidden z-50"
+>
+  {links.map((link) => {
+    const active =
+      link.location === "/"
+        ? Astro.url.pathname === "/"
+        : Astro.url.pathname.startsWith(link.location);
+
+    return (
+      <a
+        href={link.location}
+        class={`flex items-center gap-3 px-4 py-3
+        text-gray-300 hover:text-white transition
+        border-b border-white/10 last:border-none
+        ${active ? "text-white bg-white/5" : ""}`}
+      >
+        {link.customIcon ? (
+          <Image src={link.customIcon} alt="" width="16" height="16" loading="eager" class="w-5 h-5" />
+        ) : (
+          <Icon name={link.icon} class="w-5 h-5" />
+        )}
+        <span class="text-sm">{link.label}</span>
+      </a>
+    );
+  })}
+</div>
+
 </header>

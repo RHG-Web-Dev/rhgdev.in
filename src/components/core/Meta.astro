@@ -8,7 +8,7 @@ interface Props {
   image?: string;
 }
 
-const {
+let {
   siteName = "RHGDev",
   title = "RHG",
   author = "RHG",
@@ -17,6 +17,9 @@ const {
   description = "RHGDev's Development website.",
 } = Astro.props;
 const url = new URL(Astro.url.pathname, Astro.site).toString();
+if (title && !title.includes(author)) {
+  title = `${author} · ${title}`;
+}
 ---
 
 <meta name="darkreader-lock" />
