@@ -4,7 +4,10 @@ import Core from "../../layouts/Core.astro";
 import Card from "../../components/blog/Card.astro";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("blog");
+  let posts = await getCollection("blog");
+  posts = posts
+    .filter((p) => p.data.pinned !== true)
+    .filter((p) => p.data.draft !== true);
 
   const years = [
     ...new Set(
