@@ -1,0 +1,18 @@
+---
+import Card from "./Card.astro";
+
+const response = await fetch("https://rhgdev.in/@linkapi");
+const links = await response.json();
+---
+
+<section class="min-h-screen flex justify-center bg-black/40">
+  <div
+    class="grid gap-6 p-10 mt-25 lg:mx-35 w-full sm:grid-cols-3 md:grid-cols-4"
+  >
+    {
+      Object.entries(links).map(([key, value], index) => (
+        <Card keyName={key} link={value} index={index} />
+      ))
+    }
+  </div>
+</section>
