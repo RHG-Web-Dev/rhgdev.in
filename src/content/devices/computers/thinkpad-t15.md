@@ -2,7 +2,7 @@
 primary: true
 status: "active" # active, retired, broken
 acquired: "2026-04-20T00:00:00"
-image: "https://pcenvrac.com/cdn/shop/files/lenovo-thinkpad-t15.jpg?v=1764703597"
+image: "https://cdn.cs.1worldsync.com/45/cf/45cf37c8-e2a8-47c3-b7e5-7bf9fcc1db81.jpg"
 nickname: "Tyrrell"
 brand: "Lenovo"
 model: "ThinkPad T15 Gen 2"
