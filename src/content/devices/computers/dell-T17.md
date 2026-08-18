@@ -4,7 +4,7 @@ acquired: "2024-01-07T00:00:00"
 image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPa3esYrSLmo8BWr75R3K7gJV0-W4T13g5cQ&s"
 nickname: ""
 brand: "Dell"
-model: "Precision T1700 SFF"
+model: "Precision T1700 SFF x2"
 specs:
   Processor: "Intel Core i5-4570"
   Ram: "12 GB"
