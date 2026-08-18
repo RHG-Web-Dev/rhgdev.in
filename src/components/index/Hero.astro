@@ -59,7 +59,7 @@ bg-linear-to-b from-black/10 to-black/40"
           filter: drop-shadow(0 0 0px rgba(255, 255, 255, 0.75));
         }
         50% {
-          transform: scale(1.05);
+          transform: scale(1.07);
           filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.75));
         }
       }
@@ -103,31 +103,19 @@ bg-linear-to-b from-black/10 to-black/40"
 
 <script type="module">
   new TypeIt("#typer", {
-    speed: 90,
+    speed: 75,
     startDelay: 800,
     lifeLike: true,
     cursor: true,
+    waitUntilVisible: true,
+    afterComplete: (instance) => {
+      instance.destroy();
+    },
   })
-    .type("Curiosity is Power")
-    .pause(1200)
-    .move(-9)
-    .pause(300)
-    .delete()
-    .pause(300)
-    .type("Consistency")
-    .pause(1200)
-    .delete()
-    .pause(300)
-    .type("Knowledge")
-    .move(null, { to: "END" })
-    .pause(300)
-    .delete(5, { instant: true })
-    .type(
-      '<span class="text-white/50" style="filter: drop-shadow(0 0 7px rgba(255, 255, 255, 0.85))"">Power</span>.',
-      {
-        instant: true,
-      },
-    )
+    .type("I automate things")
+    .pause(900)
+    .type(" that annoy me.")
+    .pause(1400)
     .go();
 </script>
 
